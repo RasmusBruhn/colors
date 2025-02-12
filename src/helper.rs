@@ -66,7 +66,47 @@ impl ColorHCMA {
         };
     }
 
-    /// Converts the color to RGB
+    /// Converts from HSV
+    fn from_hsv(color: &ColorHSVA) -> Self {
+        let c = color.get_value() * color.get_saturation();
+        let m = color.get_value() - c;
+
+        return Self {
+            h: color.get_hue(),
+            c,
+            m,
+            a: color.get_alpha(),
+        };
+    }
+
+    /// Converts from HSL
+    fn from_hsl(color: &ColorHSLA) -> Self {
+        let c = (1.0 - (2.0 * color.get_lightness() - 1.0).abs()) * color.get_saturation();
+        let m = color.get_lightness() - 0.5 * c;
+
+        return Self {
+            h: color.get_hue(),
+            c,
+            m,
+            a: color.get_alpha(),
+        };
+    }
+
+    /// Converts from HSI
+    fn from_hsi(color: &ColorHSIA) -> Self {
+        let z = 1.0 - ((6.0 * color.get_hue()).rem_euclid(2.0) - 1.0).abs();
+        let c = 3.0 * color.get_intensity() * color.get_saturation() / (1.0 + z);
+        let m = color.get_intensity() * (1.0 - color.get_saturation());
+
+        return Self {
+            h: color.get_hue(),
+            c,
+            m,
+            a: color.get_alpha(),
+        };
+    }
+
+    /// Converts to RGB
     fn to_rgb(&self) -> ColorRGBA {
         // Calculate temporary parameters for use in the calculations
         let hp = self.h * 6.0;
@@ -92,6 +132,32 @@ impl ColorHCMA {
                 self.a,
             )
         };
+    }
+
+    /// Converts to HSV
+    fn to_hsv(&self) -> ColorHSVA {
+        let v = self.m + self.c;
+        let s = if v == 0.0 { 0.0 } else { self.c / v };
+
+        return unsafe { ColorHSVA::new_unsafe(self.h, s, v, self.a) };
+    }
+
+    /// Converts to HSL
+    fn to_hsl(&self) -> ColorHSLA {
+        let l = self.m + 0.5 * self.c;
+        let z = 1.0 - (2.0 * l - 1.0).abs();
+        let s = if z == 0.0 { 0.0 } else { self.c / z };
+
+        return unsafe { ColorHSLA::new_unsafe(self.h, s, l, self.a) };
+    }
+
+    /// Converts to HSI
+    fn to_hsi(&self) -> ColorHSIA {
+        let z = 1.0 - ((6.0 * self.h).rem_euclid(2.0) - 1.0).abs();
+        let i = self.m + self.c * (1.0 + z) / 3.0;
+        let s = if i == 0.0 { 0.0 } else { 1.0 - self.m / i };
+
+        return unsafe { ColorHSIA::new_unsafe(self.h, s, i, self.a) };
     }
 }
 
@@ -198,7 +264,7 @@ mod tests {
                     a: 1.0,
                 },
                 ColorRGBA::new_rgb(0.5, 1.0, 1.0),
-                ColorHSVA::new_hsv(180.0 / 360.0, 0.5, 0.5),
+                ColorHSVA::new_hsv(180.0 / 360.0, 0.5, 1.0),
                 ColorHSLA::new_hsl(180.0 / 360.0, 1.0, 0.75),
                 ColorHSIA::new_hsi(180.0 / 360.0, 0.4, 0.850),
             ),
@@ -210,7 +276,7 @@ mod tests {
                     a: 1.0,
                 },
                 ColorRGBA::new_rgb(0.5, 0.5, 1.0),
-                ColorHSVA::new_hsv(240.0 / 360.0, 0.5, 0.5),
+                ColorHSVA::new_hsv(240.0 / 360.0, 0.5, 1.0),
                 ColorHSLA::new_hsl(240.0 / 360.0, 1.0, 0.75),
                 ColorHSIA::new_hsi(240.0 / 360.0, 0.25, 0.557),
             ),
@@ -301,6 +367,42 @@ mod tests {
             for values in test_values.iter() {
                 let rgb = &values.1;
                 let hcm = ColorHCMA::from_rgb(rgb);
+
+                assert_eq!(round_hcm(&values.0), round_hcm(&hcm));
+            }
+        }
+
+        #[test]
+        fn from_hsv() {
+            let test_values = get_test_values();
+
+            for values in test_values.iter() {
+                let hsv = &values.2;
+                let hcm = ColorHCMA::from_hsv(hsv);
+
+                assert_eq!(round_hcm(&values.0), round_hcm(&hcm));
+            }
+        }
+
+        #[test]
+        fn from_hsl() {
+            let test_values = get_test_values();
+
+            for values in test_values.iter() {
+                let hsl = &values.3;
+                let hcm = ColorHCMA::from_hsl(hsl);
+
+                assert_eq!(round_hcm(&values.0), round_hcm(&hcm));
+            }
+        }
+
+        #[test]
+        fn from_hsi() {
+            let test_values = get_test_values();
+
+            for values in test_values.iter() {
+                let hsi = &values.4;
+                let hcm = ColorHCMA::from_hsi(hsi);
 
                 assert_eq!(round_hcm(&values.0), round_hcm(&hcm));
             }
