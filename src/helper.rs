@@ -230,7 +230,7 @@ mod tests {
                 ColorRGBA::new_rgb(1.0, 0.0, 0.0),
                 ColorHSVA::new_hsv(0.0, 1.0, 1.0),
                 ColorHSLA::new_hsl(0.0, 1.0, 0.5),
-                ColorHSIA::new_hsi(0.0, 1.0, 0.299),
+                ColorHSIA::new_hsi(0.0, 1.0, 0.3333),
             ),
             (
                 ColorHCMA {
@@ -242,7 +242,7 @@ mod tests {
                 ColorRGBA::new_rgb(0.75, 0.75, 0.0),
                 ColorHSVA::new_hsv(60.0 / 360.0, 1.0, 0.75),
                 ColorHSLA::new_hsl(60.0 / 360.0, 1.0, 0.375),
-                ColorHSIA::new_hsi(60.0 / 360.0, 1.0, 0.664),
+                ColorHSIA::new_hsi(60.0 / 360.0, 1.0, 0.5),
             ),
             (
                 ColorHCMA {
@@ -254,7 +254,7 @@ mod tests {
                 ColorRGBA::new_rgb(0.0, 0.5, 0.0),
                 ColorHSVA::new_hsv(120.0 / 360.0, 1.0, 0.5),
                 ColorHSLA::new_hsl(120.0 / 360.0, 1.0, 0.25),
-                ColorHSIA::new_hsi(120.0 / 360.0, 1.0, 0.293),
+                ColorHSIA::new_hsi(120.0 / 360.0, 1.0, 0.1667),
             ),
             (
                 ColorHCMA {
@@ -266,7 +266,7 @@ mod tests {
                 ColorRGBA::new_rgb(0.5, 1.0, 1.0),
                 ColorHSVA::new_hsv(180.0 / 360.0, 0.5, 1.0),
                 ColorHSLA::new_hsl(180.0 / 360.0, 1.0, 0.75),
-                ColorHSIA::new_hsi(180.0 / 360.0, 0.4, 0.850),
+                ColorHSIA::new_hsi(180.0 / 360.0, 0.4, 0.833),
             ),
             (
                 ColorHCMA {
@@ -278,7 +278,7 @@ mod tests {
                 ColorRGBA::new_rgb(0.5, 0.5, 1.0),
                 ColorHSVA::new_hsv(240.0 / 360.0, 0.5, 1.0),
                 ColorHSLA::new_hsl(240.0 / 360.0, 1.0, 0.75),
-                ColorHSIA::new_hsi(240.0 / 360.0, 0.25, 0.557),
+                ColorHSIA::new_hsi(240.0 / 360.0, 0.25, 0.667),
             ),
             (
                 ColorHCMA {
@@ -288,9 +288,9 @@ mod tests {
                     a: 1.0,
                 },
                 ColorRGBA::new_rgb(0.75, 0.25, 0.75),
-                ColorHSVA::new_hsv(300.0 / 360.0, 0.667, 0.5),
+                ColorHSVA::new_hsv(300.0 / 360.0, 0.667, 0.75),
                 ColorHSLA::new_hsl(300.0 / 360.0, 0.5, 0.5),
-                ColorHSIA::new_hsi(300.0 / 360.0, 0.571, 0.457),
+                ColorHSIA::new_hsi(300.0 / 360.0, 0.571, 0.5834),
             ),
             (
                 ColorHCMA {
@@ -300,9 +300,9 @@ mod tests {
                     a: 1.0,
                 },
                 ColorRGBA::new_rgb(0.628, 0.643, 0.142),
-                ColorHSVA::new_hsv(61.8 / 360.0, 0.779, 0.494),
-                ColorHSLA::new_hsl(61.8 / 360.0, 0.667, 0.393),
-                ColorHSIA::new_hsi(61.8 / 360.0, 0.699, 0.581),
+                ColorHSVA::new_hsv(61.8 / 360.0, 0.779, 0.643),
+                ColorHSLA::new_hsl(61.8 / 360.0, 0.638, 0.3924),
+                ColorHSIA::new_hsi(61.8 / 360.0, 0.699, 0.471),
             ),
         ];
     }
@@ -417,6 +417,42 @@ mod tests {
                 let rgb = hcm.to_rgb();
 
                 assert_eq!(round_rgb(&values.1), round_rgb(&rgb));
+            }
+        }
+
+        #[test]
+        fn to_hsv() {
+            let test_values = get_test_values();
+
+            for values in test_values.iter() {
+                let hcm = &values.0;
+                let hsv = hcm.to_hsv();
+
+                assert_eq!(round_hsv(&values.2), round_hsv(&hsv));
+            }
+        }
+
+        #[test]
+        fn to_hsl() {
+            let test_values = get_test_values();
+
+            for values in test_values.iter() {
+                let hcm = &values.0;
+                let hsl = hcm.to_hsl();
+
+                assert_eq!(round_hsl(&values.3), round_hsl(&hsl));
+            }
+        }
+
+        #[test]
+        fn to_hsi() {
+            let test_values = get_test_values();
+
+            for values in test_values.iter() {
+                let hcm = &values.0;
+                let hsi = hcm.to_hsi();
+
+                assert_eq!(round_hsi(&values.4), round_hsi(&hsi));
             }
         }
     }
