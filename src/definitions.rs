@@ -28,10 +28,10 @@ impl ColorRGBA {
     /// a: The alpha component
     pub fn new(r: f32, g: f32, b: f32, a: f32) -> Self {
         return Self {
-            r: helper::clamp(r, 0.0, 1.0),
-            g: helper::clamp(g, 0.0, 1.0),
-            b: helper::clamp(b, 0.0, 1.0),
-            a: helper::clamp(a, 0.0, 1.0),
+            r: r.clamp(0.0, 1.0),
+            g: g.clamp(0.0, 1.0),
+            b: b.clamp(0.0, 1.0),
+            a: a.clamp(0.0, 1.0),
         };
     }
 
@@ -46,11 +46,26 @@ impl ColorRGBA {
     ///
     /// b: The blue component
     pub fn new_rgb(r: f32, g: f32, b: f32) -> Self {
+        return Self::new(r, g, b, 1.0);
+    }
+
+    /// Constructs a new rgba color without validating the input
+    ///
+    /// # Parameters
+    ///
+    /// r: The red component
+    ///
+    /// g: The green component
+    ///
+    /// b: The blue component
+    ///
+    /// a: The alpha component
+    pub unsafe fn new_unsafe(r: f32, g: f32, b: f32, a: f32) -> Self {
         return Self {
-            r: helper::clamp(r, 0.0, 1.0),
-            g: helper::clamp(g, 0.0, 1.0),
-            b: helper::clamp(b, 0.0, 1.0),
-            a: 1.0,
+            r: r,
+            g: g,
+            b: b,
+            a: a,
         };
     }
 
@@ -115,10 +130,10 @@ impl ColorHSLA {
     /// a: The alpha component
     pub fn new(h: f32, s: f32, l: f32, a: f32) -> Self {
         return Self {
-            h: helper::clamp(h, 0.0, 1.0),
-            s: helper::clamp(s, 0.0, 1.0),
-            l: helper::clamp(l, 0.0, 1.0),
-            a: helper::clamp(a, 0.0, 1.0),
+            h: h.rem_euclid(1.0),
+            s: s.clamp(0.0, 1.0),
+            l: l.clamp(0.0, 1.0),
+            a: a.clamp(0.0, 1.0),
         };
     }
 
@@ -133,11 +148,26 @@ impl ColorHSLA {
     ///
     /// l: The ligness component
     pub fn new_hsl(h: f32, s: f32, l: f32) -> Self {
+        return Self::new(h, s, l, 1.0);
+    }
+
+    /// Constructs a new hsla color without validating the input
+    ///
+    /// # Parameters
+    ///
+    /// h: The hue component
+    ///
+    /// s: The saturation component
+    ///
+    /// l: The lightness component
+    ///
+    /// a: The alpha component
+    pub unsafe fn new_unsafe(h: f32, s: f32, l: f32, a: f32) -> Self {
         return Self {
-            h: helper::clamp(h, 0.0, 1.0),
-            s: helper::clamp(s, 0.0, 1.0),
-            l: helper::clamp(l, 0.0, 1.0),
-            a: 1.0,
+            h: h,
+            s: s,
+            l: l,
+            a: a,
         };
     }
 
@@ -183,7 +213,7 @@ pub struct ColorHSVA {
 }
 
 impl ColorHSVA {
-    /// Constructs a new hslv color, all values are clamped to between 0 and 1
+    /// Constructs a new hsva color, all values are clamped to between 0 and 1
     ///
     /// # Parameters
     ///
@@ -196,10 +226,10 @@ impl ColorHSVA {
     /// a: The alpha component
     pub fn new(h: f32, s: f32, v: f32, a: f32) -> Self {
         return Self {
-            h: helper::clamp(h, 0.0, 1.0),
-            s: helper::clamp(s, 0.0, 1.0),
-            v: helper::clamp(v, 0.0, 1.0),
-            a: helper::clamp(a, 0.0, 1.0),
+            h: h.rem_euclid(1.0),
+            s: s.clamp(0.0, 1.0),
+            v: v.clamp(0.0, 1.0),
+            a: a.clamp(0.0, 1.0),
         };
     }
 
@@ -213,12 +243,27 @@ impl ColorHSVA {
     /// s: The saturation component
     ///
     /// v: The value component
-    pub fn new_hsl(h: f32, s: f32, v: f32) -> Self {
+    pub fn new_hsv(h: f32, s: f32, v: f32) -> Self {
+        return Self::new(h, s, v, 1.0);
+    }
+
+    /// Constructs a new hsva color without validating the input
+    ///
+    /// # Parameters
+    ///
+    /// h: The hue component
+    ///
+    /// s: The saturation component
+    ///
+    /// v: The value component
+    ///
+    /// a: The alpha component
+    pub unsafe fn new_unsafe(h: f32, s: f32, v: f32, a: f32) -> Self {
         return Self {
-            h: helper::clamp(h, 0.0, 1.0),
-            s: helper::clamp(s, 0.0, 1.0),
-            v: helper::clamp(v, 0.0, 1.0),
-            a: 1.0,
+            h: h,
+            s: s,
+            v: v,
+            a: a,
         };
     }
 
@@ -277,10 +322,10 @@ impl ColorHSIA {
     /// a: The alpha component
     pub fn new(h: f32, s: f32, i: f32, a: f32) -> Self {
         return Self {
-            h: helper::clamp(h, 0.0, 1.0),
-            s: helper::clamp(s, 0.0, 1.0),
-            i: helper::clamp(i, 0.0, 1.0),
-            a: helper::clamp(a, 0.0, 1.0),
+            h: h.rem_euclid(1.0),
+            s: s.clamp(0.0, 1.0),
+            i: i.clamp(0.0, 1.0),
+            a: a.clamp(0.0, 1.0),
         };
     }
 
@@ -294,12 +339,27 @@ impl ColorHSIA {
     /// s: The saturation component
     ///
     /// i: The intensity component
-    pub fn new_hsl(h: f32, s: f32, i: f32) -> Self {
+    pub fn new_hsi(h: f32, s: f32, i: f32) -> Self {
+        return Self::new(h, s, i, 1.0);
+    }
+
+    /// Constructs a new hsia color without validating the input
+    ///
+    /// # Parameters
+    ///
+    /// h: The hue component
+    ///
+    /// s: The saturation component
+    ///
+    /// i: The intensity component
+    ///
+    /// a: The alpha component
+    pub unsafe fn new_unsafe(h: f32, s: f32, i: f32, a: f32) -> Self {
         return Self {
-            h: helper::clamp(h, 0.0, 1.0),
-            s: helper::clamp(s, 0.0, 1.0),
-            i: helper::clamp(i, 0.0, 1.0),
-            a: 1.0,
+            h: h,
+            s: s,
+            i: i,
+            a: a,
         };
     }
 
@@ -346,7 +406,7 @@ impl<const N: usize> ColorND<N> {
         let values: [f32; N] = values
             .iter()
             .map(|value| {
-                return helper::clamp(*value, 0.0, 1.0);
+                return value.clamp(0.0, 1.0);
             })
             .collect::<Vec<f32>>()
             .try_into()
