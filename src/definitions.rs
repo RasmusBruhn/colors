@@ -1,3 +1,7 @@
+//!
+//! This module includes all definitions of base colors, the Color trait and the ColorMap trait
+//!
+
 use crate::utils;
 
 /// A struct for defining a single color in RGBA space all values are between 0

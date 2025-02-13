@@ -1,6 +1,9 @@
-pub mod utils;
-pub mod colors;
-pub mod definitions;
-pub mod maps;
+mod definitions;
 
-pub use definitions::{Color, ColorHSIA, ColorHSLA, ColorHSVA, ColorMap, ColorND, ColorRGBA};
+pub mod colors;
+pub mod maps;
+pub mod utils;
+
+pub use definitions::{
+    Color, ColorHSIA, ColorHSLA, ColorHSVA, ColorMap, ColorND, ColorRGBA, ColorType,
+};
