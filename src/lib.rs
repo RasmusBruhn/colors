@@ -1,4 +1,4 @@
-pub mod helper;
+pub mod utils;
 pub mod colors;
 pub mod definitions;
 pub mod maps;

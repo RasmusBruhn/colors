@@ -1,3 +1,10 @@
+//! 
+//! This module contains utility functions for use in color conversion.
+//! Currently it contains functions to convert between any base color
+//! representation used in this library. Other utility functions may be added
+//! later.
+//! 
+
 use crate::{ColorHSIA, ColorHSLA, ColorHSVA, ColorRGBA};
 
 /// A color in the hue, croma, minimum, alpha space, used to convert between HSx and RGB colors
@@ -161,21 +168,113 @@ impl ColorHCMA {
     }
 }
 
-pub fn hsl_to_rgb(color: &ColorHSLA) -> ColorRGBA {
-    let f = |n: f32| -> f32 {
-        let k = (n + color.get_hue() * 12.0).rem_euclid(12.0);
-        let a = color.get_saturation() * color.get_lightness().min(1.0 - color.get_lightness());
-        return color.get_lightness() - a * (k - 3.0).min(9.0 - k).clamp(-1.0, 1.0);
-    };
-
-    return unsafe { ColorRGBA::new_unsafe(f(0.0), f(4.0), f(8.0), color.get_alpha()) };
+/// Converts a RGB color to HSV representation
+/// 
+/// # Parameters
+/// 
+/// color: The RGB color to convert
+pub fn rgb_to_hsv(color: &ColorRGBA) -> ColorHSVA {
+    return ColorHCMA::from_rgb(color).to_hsv();
 }
 
-//pub fn rgb_to_hsl(color: &ColorRGBA) -> ColorHSLA {
-//    let v = color.get_red().max(color.get_green().max(color.get_blue()));
-//    let c = v - color.get_red().min(color.get_green().min(color.get_blue()));
-//    let l = v - 0.5 * c;
-//}
+/// Converts a RGB color to HSL representation
+/// 
+/// # Parameters
+/// 
+/// color: The RGB color to convert
+pub fn rgb_to_hsl(color: &ColorRGBA) -> ColorHSLA {
+    return ColorHCMA::from_rgb(color).to_hsl();
+}
+
+/// Converts a RGB color to HSI representation
+/// 
+/// # Parameters
+/// 
+/// color: The RGB color to convert
+pub fn rgb_to_hsi(color: &ColorRGBA) -> ColorHSIA {
+    return ColorHCMA::from_rgb(color).to_hsi();
+}
+
+/// Converts a HSV color to HSL representation
+/// 
+/// # Parameters
+/// 
+/// color: The HSV color to convert
+pub fn hsv_to_hsl(color: &ColorHSVA) -> ColorHSLA {
+    return ColorHCMA::from_hsv(color).to_hsl();
+}
+
+/// Converts a HSV color to HSI representation
+/// 
+/// # Parameters
+/// 
+/// color: The HSV color to convert
+pub fn hsv_to_hsi(color: &ColorHSVA) -> ColorHSIA {
+    return ColorHCMA::from_hsv(color).to_hsi();
+}
+
+/// Converts a HSV color to RGB representation
+/// 
+/// # Parameters
+/// 
+/// color: The HSV color to convert
+pub fn hsv_to_rgb(color: &ColorHSVA) -> ColorRGBA {
+    return ColorHCMA::from_hsv(color).to_rgb();
+}
+
+/// Converts a HSL color to HSI representation
+/// 
+/// # Parameters
+/// 
+/// color: The HSL color to convert
+pub fn hsl_to_hsi(color: &ColorHSLA) -> ColorHSIA {
+    return ColorHCMA::from_hsl(color).to_hsi();
+}
+
+/// Converts a HSL color to RGB representation
+/// 
+/// # Parameters
+/// 
+/// color: The HSL color to convert
+pub fn hsl_to_rgb(color: &ColorHSLA) -> ColorRGBA {
+    return ColorHCMA::from_hsl(color).to_rgb();
+}
+
+/// Converts a HSL color to HSV representation
+/// 
+/// # Parameters
+/// 
+/// color: The HSL color to convert
+pub fn hsl_to_hsv(color: &ColorHSLA) -> ColorHSVA {
+    return ColorHCMA::from_hsl(color).to_hsv();
+}
+
+/// Converts a HSI color to RGB representation
+/// 
+/// # Parameters
+/// 
+/// color: The HSI color to convert
+pub fn hsi_to_rgb(color: &ColorHSIA) -> ColorRGBA {
+    return ColorHCMA::from_hsi(color).to_rgb();
+}
+
+/// Converts a HSI color to HSV representation
+/// 
+/// # Parameters
+/// 
+/// color: The HSI color to convert
+pub fn hsi_to_hsv(color: &ColorHSIA) -> ColorHSVA {
+    return ColorHCMA::from_hsi(color).to_hsv();
+}
+
+/// Converts a HSI color to HSL representation
+/// 
+/// # Parameters
+/// 
+/// color: The HSI color to convert
+pub fn hsi_to_hsl(color: &ColorHSIA) -> ColorHSLA {
+    return ColorHCMA::from_hsi(color).to_hsl();
+}
 
 #[cfg(test)]
 mod tests {

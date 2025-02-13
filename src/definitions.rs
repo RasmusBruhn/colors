@@ -1,4 +1,4 @@
-use crate::helper;
+use crate::utils;
 
 /// A struct for defining a single color in RGBA space all values are between 0
 /// and 1
