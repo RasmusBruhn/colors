@@ -200,6 +200,14 @@ impl ColorHSLA {
     }
 }
 
+impl Color for ColorHSLA {
+    const TYPE: ColorType = ColorType::HSL;
+
+    fn get_hsla(&self) -> ColorHSLA {
+        return *self;
+    }
+}
+
 /// A struct for defining a single color in HSLV space all values are between 0
 /// and 1
 #[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
@@ -293,6 +301,14 @@ impl ColorHSVA {
     /// saturation, value, alpha
     pub fn get(&self) -> [f32; 4] {
         return [self.h, self.s, self.v, self.a];
+    }
+}
+
+impl Color for ColorHSVA {
+    const TYPE: ColorType = ColorType::HSV;
+
+    fn get_hsva(&self) -> ColorHSVA {
+        return *self;
     }
 }
 
@@ -392,6 +408,14 @@ impl ColorHSIA {
     }
 }
 
+impl Color for ColorHSIA {
+    const TYPE: ColorType = ColorType::HSI;
+
+    fn get_hsia(&self) -> ColorHSIA {
+        return *self;
+    }
+}
+
 /// A generic N-dimensional color, all components are clamped between 0 and 1
 #[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
 pub struct ColorND<const N: usize> {
@@ -442,12 +466,10 @@ pub trait Color {
 
     /// Retrieves the RGBA color for this color
     fn get_rgba(&self) -> ColorRGBA {
-        if cfg!(ColorType::RGB = Self::TYPE) {
-
-        }
-
         return match Self::TYPE {
-            ColorType::RGB => compile_error!("The get_rgba() method must be implemented for a color of TYPE RGB"),
+            ColorType::RGB => {
+                panic!("The get_rgba() method must be implemented for a color of TYPE RGB")
+            }
             ColorType::HSV => utils::hsv_to_rgb(&self.get_hsva()),
             ColorType::HSL => utils::hsl_to_rgb(&self.get_hsla()),
             ColorType::HSI => utils::hsi_to_rgb(&self.get_hsia()),
@@ -458,7 +480,9 @@ pub trait Color {
     fn get_hsva(&self) -> ColorHSVA {
         return match Self::TYPE {
             ColorType::RGB => utils::rgb_to_hsv(&self.get_rgba()),
-            ColorType::HSV => panic!("The get_hsva() method must be implemented for a color of TYPE HSV"),
+            ColorType::HSV => {
+                panic!("The get_hsva() method must be implemented for a color of TYPE HSV")
+            }
             ColorType::HSL => utils::hsl_to_hsv(&self.get_hsla()),
             ColorType::HSI => utils::hsi_to_hsv(&self.get_hsia()),
         };
@@ -469,7 +493,9 @@ pub trait Color {
         return match Self::TYPE {
             ColorType::RGB => utils::rgb_to_hsl(&self.get_rgba()),
             ColorType::HSV => utils::hsv_to_hsl(&self.get_hsva()),
-            ColorType::HSL => panic!("The get_hsla() method must be implemented for a color of TYPE HSL"),
+            ColorType::HSL => {
+                panic!("The get_hsla() method must be implemented for a color of TYPE HSL")
+            }
             ColorType::HSI => utils::hsi_to_hsl(&self.get_hsia()),
         };
     }
@@ -480,7 +506,9 @@ pub trait Color {
             ColorType::RGB => utils::rgb_to_hsi(&self.get_rgba()),
             ColorType::HSV => utils::hsv_to_hsi(&self.get_hsva()),
             ColorType::HSL => utils::hsl_to_hsi(&self.get_hsla()),
-            ColorType::HSI => panic!("The get_hsia() method must be implemented for a color of TYPE HSI"),
+            ColorType::HSI => {
+                panic!("The get_hsia() method must be implemented for a color of TYPE HSI")
+            }
         };
     }
 }
