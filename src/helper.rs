@@ -182,7 +182,7 @@ mod tests {
     use super::*;
 
     /// Retrieves all test colors
-    fn get_test_values() -> [(ColorHCMA, ColorRGBA, ColorHSVA, ColorHSLA, ColorHSIA); 10] {
+    fn get_test_values() -> [(ColorHCMA, ColorRGBA, ColorHSVA, ColorHSLA, ColorHSIA); 19] {
         return [
             (
                 ColorHCMA {
@@ -303,6 +303,114 @@ mod tests {
                 ColorHSVA::new_hsv(61.8 / 360.0, 0.779, 0.643),
                 ColorHSLA::new_hsl(61.8 / 360.0, 0.638, 0.3924),
                 ColorHSIA::new_hsi(61.8 / 360.0, 0.699, 0.471),
+            ),
+            (
+                ColorHCMA {
+                    h: 251.1 / 360.0,
+                    c: 0.814,
+                    m: 0.104,
+                    a: 1.0,
+                },
+                ColorRGBA::new_rgb(0.255, 0.104, 0.918),
+                ColorHSVA::new_hsv(251.1 / 360.0, 0.887, 0.918),
+                ColorHSLA::new_hsl(251.1 / 360.0, 0.832, 0.511),
+                ColorHSIA::new_hsi(251.1 / 360.0, 0.7555, 0.4255),
+            ),
+            (
+                ColorHCMA {
+                    h: 134.9 / 360.0,
+                    c: 0.559,
+                    m: 0.116,
+                    a: 1.0,
+                },
+                ColorRGBA::new_rgb(0.116, 0.675, 0.255),
+                ColorHSVA::new_hsv(134.9 / 360.0, 0.828, 0.675),
+                ColorHSLA::new_hsl(134.9 / 360.0, 0.7065, 0.3955),
+                ColorHSIA::new_hsi(134.9 / 360.0, 0.667, 0.349),
+            ),
+            (
+                ColorHCMA {
+                    h: 49.5 / 360.0,
+                    c: 0.888,
+                    m: 0.053,
+                    a: 1.0,
+                },
+                ColorRGBA::new_rgb(0.9405, 0.7855, 0.053),
+                ColorHSVA::new_hsv(49.5 / 360.0, 0.944, 0.941),
+                ColorHSLA::new_hsl(49.5 / 360.0, 0.893, 0.497),
+                ColorHSIA::new_hsi(49.5 / 360.0, 0.911, 0.593),
+            ),
+            (
+                ColorHCMA {
+                    h: 283.7 / 360.0,
+                    c: 0.710,
+                    m: 0.187,
+                    a: 1.0,
+                },
+                ColorRGBA::new_rgb(0.704, 0.187, 0.897),
+                ColorHSVA::new_hsv(283.7 / 360.0, 0.792, 0.897),
+                ColorHSLA::new_hsl(283.7 / 360.0, 0.775, 0.542),
+                ColorHSIA::new_hsi(283.7 / 360.0, 0.686, 0.596),
+            ),
+            (
+                ColorHCMA {
+                    h: 14.3 / 360.0,
+                    c: 0.615,
+                    m: 0.316,
+                    a: 1.0,
+                },
+                ColorRGBA::new_rgb(0.931, 0.463, 0.316),
+                ColorHSVA::new_hsv(14.3 / 360.0, 0.661, 0.931),
+                ColorHSLA::new_hsl(14.3 / 360.0, 0.81749, 0.6239),
+                ColorHSIA::new_hsi(14.3 / 360.0, 0.4454, 0.570),
+            ),
+            (
+                ColorHCMA {
+                    h: 56.9 / 360.0,
+                    c: 0.466,
+                    m: 0.532,
+                    a: 1.0,
+                },
+                ColorRGBA::new_rgb(0.998, 0.974, 0.532),
+                ColorHSVA::new_hsv(56.9 / 360.0, 0.467, 0.998),
+                ColorHSLA::new_hsl(56.9 / 360.0, 0.991, 0.765),
+                ColorHSIA::new_hsi(56.9 / 360.0, 0.3625, 0.8345),
+            ),
+            (
+                ColorHCMA {
+                    h: 162.4 / 360.0,
+                    c: 0.696,
+                    m: 0.099,
+                    a: 1.0,
+                },
+                ColorRGBA::new_rgb(0.099, 0.795, 0.591),
+                ColorHSVA::new_hsv(162.4 / 360.0, 0.875, 0.795),
+                ColorHSLA::new_hsl(162.4 / 360.0, 0.779, 0.447),
+                ColorHSIA::new_hsi(162.4 / 360.0, 0.800, 0.495),
+            ),
+            (
+                ColorHCMA {
+                    h: 248.3 / 360.0,
+                    c: 0.448,
+                    m: 0.149,
+                    a: 1.0,
+                },
+                ColorRGBA::new_rgb(0.211, 0.149, 0.597),
+                ColorHSVA::new_hsv(248.3 / 360.0, 0.750, 0.597),
+                ColorHSLA::new_hsl(248.3 / 360.0, 0.601, 0.373),
+                ColorHSIA::new_hsi(248.3 / 360.0, 0.533, 0.319),
+            ),
+            (
+                ColorHCMA {
+                    h: 240.5 / 360.0,
+                    c: 0.228,
+                    m: 0.493,
+                    a: 1.0,
+                },
+                ColorRGBA::new_rgb(0.495, 0.493, 0.721),
+                ColorHSVA::new_hsv(240.5 / 360.0, 0.316, 0.721),
+                ColorHSLA::new_hsl(240.5 / 360.0, 0.290, 0.607),
+                ColorHSIA::new_hsi(240.5 / 360.0, 0.1345, 0.5695),
             ),
         ];
     }
