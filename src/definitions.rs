@@ -97,6 +97,8 @@ impl ColorRGBA {
 }
 
 impl Color for ColorRGBA {
+    const TYPE: ColorType = ColorType::RGB;
+
     fn get_rgba(&self) -> ColorRGBA {
         return *self;
     }
@@ -421,10 +423,66 @@ impl<const N: usize> ColorND<N> {
     }
 }
 
+/// A simple enum type for determining which format is the base format of a
+/// color trait, this is used to implement the correct default functions such
+/// that only one color return function needs to be implemented
+#[derive(Debug, PartialEq, PartialOrd, Clone, Copy)]
+pub enum ColorType {
+    RGB,
+    HSV,
+    HSL,
+    HSI,
+}
+
 /// Defines a single color which can be expressed in RGBA
 pub trait Color {
-    /// Retrieves the rgba color for this color
-    fn get_rgba(&self) -> ColorRGBA;
+    /// The base color type, the get_x method of this color must be implemented
+    /// while the others will be implemented automatically
+    const TYPE: ColorType;
+
+    /// Retrieves the RGBA color for this color
+    fn get_rgba(&self) -> ColorRGBA {
+        if cfg!(ColorType::RGB = Self::TYPE) {
+
+        }
+
+        return match Self::TYPE {
+            ColorType::RGB => compile_error!("The get_rgba() method must be implemented for a color of TYPE RGB"),
+            ColorType::HSV => utils::hsv_to_rgb(&self.get_hsva()),
+            ColorType::HSL => utils::hsl_to_rgb(&self.get_hsla()),
+            ColorType::HSI => utils::hsi_to_rgb(&self.get_hsia()),
+        };
+    }
+
+    /// Retrieves the HSVA color for this color
+    fn get_hsva(&self) -> ColorHSVA {
+        return match Self::TYPE {
+            ColorType::RGB => utils::rgb_to_hsv(&self.get_rgba()),
+            ColorType::HSV => panic!("The get_hsva() method must be implemented for a color of TYPE HSV"),
+            ColorType::HSL => utils::hsl_to_hsv(&self.get_hsla()),
+            ColorType::HSI => utils::hsi_to_hsv(&self.get_hsia()),
+        };
+    }
+
+    /// Retrieves the HSLA color for this color
+    fn get_hsla(&self) -> ColorHSLA {
+        return match Self::TYPE {
+            ColorType::RGB => utils::rgb_to_hsl(&self.get_rgba()),
+            ColorType::HSV => utils::hsv_to_hsl(&self.get_hsva()),
+            ColorType::HSL => panic!("The get_hsla() method must be implemented for a color of TYPE HSL"),
+            ColorType::HSI => utils::hsi_to_hsl(&self.get_hsia()),
+        };
+    }
+
+    /// Retrieves the HSIA color for this color
+    fn get_hsia(&self) -> ColorHSIA {
+        return match Self::TYPE {
+            ColorType::RGB => utils::rgb_to_hsi(&self.get_rgba()),
+            ColorType::HSV => utils::hsv_to_hsi(&self.get_hsva()),
+            ColorType::HSL => utils::hsl_to_hsi(&self.get_hsla()),
+            ColorType::HSI => panic!("The get_hsia() method must be implemented for a color of TYPE HSI"),
+        };
+    }
 }
 
 /// Defines a color map which can convert a N-dimensional color into a normal
